@@ -5,9 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ゲーム一覧 - Flashゲームサイト</title>
+    <title>Ruffleテスト</title>
 
-    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../../assets/css/common.css">
+
+    <script src="../../ruffle/ruffle.js"></script>
+    <script src="../../assets/js/ruffle-player.js"></script>
 </head>
 
 <body>
@@ -16,13 +19,13 @@
 
         <div class="site-header">
 
-            <a href="../index.html" class="site-title">
+            <a href="../../index.html" class="site-title">
                 Flashゲームサイト
             </a>
 
             <nav>
-                <a href="../index.html">ホーム</a>
-                <a href="index.html">ゲーム</a>
+                <a href="../../index.html">ホーム</a>
+                <a href="../index.html">ゲーム</a>
             </nav>
 
         </div>
@@ -34,26 +37,15 @@
 
         <section>
 
-            <h1>ゲーム一覧</h1>
+            <h1>Ruffleテスト</h1>
 
             <p>
-                遊べるFlashゲームの一覧です。
+                Ruffleが正常に読み込まれているか確認します。
             </p>
 
-        </section>
-
-
-        <section>
-
-            <h2>CR河原美代子DW</h2>
-
-            <p>
-                Flashで作られたゲームです。
-            </p>
-
-            <a href="test/index.html" class="button">
-                ゲームをプレイ
-            </a>
+            <div id="ruffle-wrapper">
+                <div id="ruffle-container"></div>
+            </div>
 
         </section>
 

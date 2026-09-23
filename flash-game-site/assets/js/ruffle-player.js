@@ -23,48 +23,34 @@ document.addEventListener("DOMContentLoaded", () => {
     function resizeGame() {
 
         const screenWidth = window.innerWidth;
-        const screenHeight = window.innerHeight;
 
         /*
-         * ゲームの上にあるページ部分を考慮する
+         * PCでは800×600のまま
+         * スマホでは画面幅に合わせて縮小
          */
-        const rect =
-            container.getBoundingClientRect();
-
         const availableWidth =
             screenWidth - 40;
 
-        const availableHeight =
-            screenHeight - rect.top - 20;
-
-        /*
-         * 800×600の4:3を維持したまま、
-         * 横幅・縦幅の両方に収まるサイズを計算
-         */
-        const scale =
+        const width =
             Math.min(
-                1,
-                availableWidth / gameWidth,
-                availableHeight / gameHeight
+                gameWidth,
+                availableWidth
             );
 
-        const width =
-            Math.floor(gameWidth * scale);
-
         const height =
-            Math.floor(gameHeight * scale);
+            width * gameHeight / gameWidth;
 
         player.style.width =
-            width + "px";
+            Math.floor(width) + "px";
 
         player.style.height =
-            height + "px";
+            Math.floor(height) + "px";
 
         container.style.width =
-            width + "px";
+            Math.floor(width) + "px";
 
         container.style.height =
-            height + "px";
+            Math.floor(height) + "px";
     }
 
     window.addEventListener(
@@ -75,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener(
         "orientationchange",
         () => {
-            setTimeout(resizeGame, 100);
+            setTimeout(resizeGame, 200);
         }
     );
 

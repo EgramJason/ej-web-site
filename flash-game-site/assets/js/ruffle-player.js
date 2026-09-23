@@ -11,6 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    /*
+     * Ruffleを作成
+     */
     const ruffle =
         window.RufflePlayer.newest();
 
@@ -25,22 +28,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const gameHeight = 600;
 
 
+    /*
+     * Ruffleをcontainerに追加
+     */
     container.appendChild(player);
 
 
     function resizeGame() {
 
         /*
-         * Safari / iPhoneでは
-         * visualViewportを優先
+         * SafariではvisualViewportのほうが
+         * 実際に見えている領域を取得しやすい
          */
         const viewport =
             window.visualViewport;
+
 
         const screenWidth =
             viewport
                 ? viewport.width
                 : document.documentElement.clientWidth;
+
 
         const screenHeight =
             viewport
@@ -49,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /*
-         * 横向き判定
+         * 横向きかどうか
          */
         const isLandscape =
             screenWidth > screenHeight;
@@ -58,27 +66,33 @@ document.addEventListener("DOMContentLoaded", () => {
         /*
          * 画面端との余白
          *
-         * 横向きは5px
-         * 縦向きは10px
+         * 縦向き：10px
+         * 横向き：5px
+         *
+         * 横向きは少しだけ大きくする
          */
         const margin =
             isLandscape ? 5 : 10;
 
 
         /*
-         * 使用可能な画面サイズ
+         * ゲームに使用できる最大幅
          */
         const maxWidth =
-            screenWidth - margin * 2;
+            screenWidth - (margin * 2);
 
+
+        /*
+         * ゲームに使用できる最大高さ
+         */
         const maxHeight =
-            screenHeight - margin * 2;
+            screenHeight - (margin * 2);
 
 
         /*
          * 800×600 = 4:3
          *
-         * 横幅を最大まで使った場合の高さ
+         * 横幅いっぱいにした場合の高さ
          */
         const widthBasedHeight =
             maxWidth *
@@ -87,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /*
-         * 高さを最大まで使った場合の幅
+         * 高さいっぱいにした場合の幅
          */
         const heightBasedWidth =
             maxHeight *
@@ -106,17 +120,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
             width = maxWidth;
 
-        } else {
+        }
 
-            /*
-             * 高さに合わせる
-             */
+        /*
+         * 横幅に合わせると
+         * 高さからはみ出す場合
+         */
+        else {
+
             width = heightBasedWidth;
+
         }
 
 
         /*
-         * PCでは800pxを上限
+         * PCなどでは800pxを上限にする
          */
         width =
             Math.min(
@@ -126,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /*
-         * 4:3を維持
+         * 4:3を維持して高さを計算
          */
         const height =
             width *
@@ -134,6 +152,9 @@ document.addEventListener("DOMContentLoaded", () => {
             gameWidth;
 
 
+        /*
+         * 小数点以下を切り捨て
+         */
         const finalWidth =
             Math.floor(width);
 
@@ -142,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /*
-         * Ruffle本体
+         * Ruffle本体のサイズ
          */
         player.style.setProperty(
             "width",
@@ -158,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /*
-         * コンテナ
+         * 親コンテナのサイズ
          */
         container.style.width =
             finalWidth + "px";
@@ -168,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /*
-         * Ruffleの属性
+         * Ruffleの属性にもサイズを指定
          */
         player.setAttribute(
             "width",
@@ -183,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /*
-     * SWF読み込み
+     * SWFを読み込む
      */
     player.ruffle().load(
         "cr_miyoco_dw_8.swf"
@@ -191,13 +212,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /*
-     * 初回サイズ
+     * 初回サイズ設定
      */
     resizeGame();
 
 
     /*
-     * ブラウザサイズ変更
+     * ブラウザのサイズ変更
      */
     window.addEventListener(
         "resize",
@@ -206,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /*
-     * iPhone回転
+     * iPhoneの縦横回転
      */
     window.addEventListener(
         "orientationchange",
@@ -222,7 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /*
-     * Safari visualViewport変更
+     * SafariのvisualViewport変更
      */
     if (window.visualViewport) {
 
@@ -230,6 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "resize",
             resizeGame
         );
+
     }
 
 });

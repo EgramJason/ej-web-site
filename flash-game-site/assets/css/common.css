@@ -110,13 +110,26 @@ footer {
 }
 
 
+/* Ruffleゲーム */
+
+#ruffle-wrapper {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+#ruffle-container {
+    width: 100%;
+}
+
+
 /* スマートフォン対応 */
 
 @media (max-width: 600px) {
 
     .site-header {
         padding: 15px;
-
         flex-direction: column;
         align-items: flex-start;
         gap: 15px;
@@ -152,6 +165,11 @@ footer {
     footer {
         margin-top: 30px;
         padding: 20px;
+    }
+
+    #ruffle-wrapper {
+        width: 100%;
+        max-width: 100%;
     }
 
 }

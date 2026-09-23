@@ -39,7 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
             screenHeight / gameHeight;
 
         const scale =
-            Math.min(1, widthScale, heightScale) * 0.95;
 
         player.style.transform =
             "scale(" + scale + ")";

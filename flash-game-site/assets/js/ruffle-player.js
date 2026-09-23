@@ -29,17 +29,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const screenHeight = window.innerHeight;
 
         /*
-         * 横方向・縦方向の両方に収まる縮小率を計算
-         * さらに5%ほど余裕を持たせる
+         * ゲーム以外に使われるページ上部の高さを考慮
          */
+        const availableHeight =
+            screenHeight - 180;
+
         const widthScale =
             screenWidth / gameWidth;
 
         const heightScale =
-            screenHeight / gameHeight;
+            availableHeight / gameHeight;
 
         const scale =
-            Math.min(1, widthScale, heightScale) * 0.75;
+            Math.min(1, widthScale, heightScale);
 
         player.style.transform =
             "scale(" + scale + ")";

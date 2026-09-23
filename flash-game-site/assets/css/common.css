@@ -172,4 +172,8 @@ footer {
         max-width: 100%;
     }
 
+    #ruffle-container {
+        width: 100%;
+    }
+
 }

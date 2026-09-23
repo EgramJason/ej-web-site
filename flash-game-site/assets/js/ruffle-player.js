@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /*
      * SWF本来のサイズ
+     * 800 × 600 = 4:3
      */
     const gameWidth = 800;
     const gameHeight = 600;
@@ -31,16 +32,22 @@ document.addEventListener("DOMContentLoaded", () => {
     function resizeGame() {
 
         /*
-         * Safari / iPhoneでは
-         * visualViewportを優先
+         * 実際にRuffleを置ける
+         * wrapperの横幅を使用する
+         *
+         * 画面全体の幅ではなく、
+         * main・sectionの余白を除いた
+         * 実際の領域を基準にする。
+         */
+        const availableWidth =
+            wrapper.clientWidth;
+
+
+        /*
+         * 画面の高さ
          */
         const viewport =
             window.visualViewport;
-
-        const screenWidth =
-            viewport
-                ? viewport.width
-                : document.documentElement.clientWidth;
 
         const screenHeight =
             viewport
@@ -49,68 +56,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /*
-         * 横向き判定
-         */
-        const isLandscape =
-            screenWidth > screenHeight;
-
-
-        /*
-         * 画面端との余白
+         * wrapperの画面上での位置を取得
          *
-         * 横向きは5px
-         * 縦向きは10px
+         * 上側にあるコンテンツを考慮して、
+         * Ruffleが画面下にはみ出さないようにする。
          */
-        const margin =
-            isLandscape ? 5 : 10;
+        const wrapperRect =
+            wrapper.getBoundingClientRect();
+
+        const availableHeight =
+            screenHeight -
+            wrapperRect.top -
+            10;
 
 
         /*
-         * 使用可能な画面サイズ
-         */
-        const maxWidth =
-            screenWidth - margin * 2;
-
-        const maxHeight =
-            screenHeight - margin * 2;
-
-
-        /*
-         * 800×600 = 4:3
-         *
-         * 横幅を最大まで使った場合の高さ
+         * 横幅基準の高さ
          */
         const widthBasedHeight =
-            maxWidth *
+            availableWidth *
             gameHeight /
             gameWidth;
 
 
         /*
-         * 高さを最大まで使った場合の幅
+         * 高さ基準の横幅
          */
         const heightBasedWidth =
-            maxHeight *
+            availableHeight *
             gameWidth /
             gameHeight;
 
 
+        /*
+         * 横幅・高さの両方に収まる
+         * 最大サイズを選択
+         */
         let width;
 
+        if (widthBasedHeight <= availableHeight) {
 
-        /*
-         * 横幅に合わせても
-         * 高さに収まる場合
-         */
-        if (widthBasedHeight <= maxHeight) {
-
-            width = maxWidth;
+            width = availableWidth;
 
         } else {
 
-            /*
-             * 高さに合わせる
-             */
             width = heightBasedWidth;
         }
 
@@ -122,6 +111,16 @@ document.addEventListener("DOMContentLoaded", () => {
             Math.min(
                 width,
                 gameWidth
+            );
+
+
+        /*
+         * 念のため0未満にならないようにする
+         */
+        width =
+            Math.max(
+                width,
+                1
             );
 
 
@@ -142,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /*
-         * Ruffle本体
+         * Ruffle本体のサイズ
          */
         player.style.setProperty(
             "width",
@@ -158,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /*
-         * コンテナ
+         * コンテナのサイズ
          */
         container.style.width =
             finalWidth + "px";
@@ -191,13 +190,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /*
-     * 初回サイズ
+     * 初回サイズ設定
      */
     resizeGame();
 
 
     /*
-     * ブラウザサイズ変更
+     * ウィンドウサイズ変更
      */
     window.addEventListener(
         "resize",
@@ -222,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /*
-     * Safari visualViewport変更
+     * Safariの表示領域変更
      */
     if (window.visualViewport) {
 

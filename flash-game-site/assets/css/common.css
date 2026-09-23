@@ -130,7 +130,7 @@ footer {
     margin: 0;
     padding: 0;
 
-    flex-shrink: 0;
+    flex: 0 0 auto;
 
     position: relative;
 }
@@ -160,13 +160,11 @@ footer {
     }
 
     section {
-        padding: 15px;
-        margin-bottom: 20px;
+        padding: 10px;
     }
 
     #ruffle-wrapper {
         width: 100%;
         overflow: hidden;
     }
-
 }

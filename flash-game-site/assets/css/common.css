@@ -120,11 +120,7 @@ footer {
     margin: 0 auto;
 
     display: flex;
-
-    /* 横方向の中央揃え */
     justify-content: center;
-
-    /* 上端を揃える */
     align-items: flex-start;
 
     overflow: hidden;
@@ -169,10 +165,6 @@ footer {
 
     #ruffle-wrapper {
         width: 100%;
-
-        /* スマホでも中央揃え */
-        justify-content: center;
-
         overflow: hidden;
     }
 }

@@ -1,47 +1,130 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Ruffleテスト</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="../../assets/css/common.css">
+    <title>ゲーム</title>
 
-    <script src="../../ruffle/ruffle.js"></script>
-    <script src="../../assets/js/ruffle-player.js"></script>
+
+    <!-- 共通CSS -->
+    <link
+        rel="stylesheet"
+        href="../assets/css/common.css"
+    >
+
+
+    <!--
+        公式ダウンロード版Ruffle
+
+        ruffle/ フォルダは
+        ダウンロードしたものをそのまま使用
+    -->
+    <script
+        src="../ruffle/ruffle.js"
+    ></script>
+
+
+    <!-- Ruffleプレイヤー制御 -->
+    <script
+        src="../assets/js/ruffle-player.js"
+    ></script>
+
 </head>
 
+
 <body>
+
+
+    <!-- ヘッダー -->
     <header>
+
         <div class="site-header">
-            <a href="../../index.html" class="site-title">
+
+            <a
+                href="../index.html"
+                class="site-title"
+            >
                 Flashゲームサイト
             </a>
 
+
             <nav>
-                <a href="../../index.html">ホーム</a>
-                <a href="../index.html">ゲーム</a>
+
+                <a
+                    href="../index.html"
+                >
+                    ホーム
+                </a>
+
+                <a
+                    href="./"
+                >
+                    ゲーム
+                </a>
+
             </nav>
+
         </div>
+
     </header>
 
+
+
+    <!-- メイン -->
     <main>
+
         <section>
-            <h1>Ruffleテスト</h1>
+
+            <h1>
+                ゲーム
+            </h1>
+
 
             <p>
-                Ruffleが正常に読み込まれているか確認します。
+                ゲームをプレイできます。
             </p>
 
+
+            <!--
+                Ruffle表示領域
+
+                SWFは
+                /games/test/cr_miyoco_dw_8.swf
+                にあります。
+            -->
             <div id="ruffle-wrapper">
-                <div id="ruffle-container"></div>
+
+                <div
+                    id="ruffle-container"
+                    data-swf="./test/cr_miyoco_dw_8.swf"
+                    aria-label="Flashゲーム"
+                ></div>
+
             </div>
+
         </section>
+
     </main>
 
+
+
+    <!-- フッター -->
     <footer>
-        <p>&copy; 2026 Flashゲームサイト</p>
+
+        <p>
+            &copy; 2026 Flashゲームサイト
+        </p>
+
     </footer>
+
+
 </body>
+
 </html>

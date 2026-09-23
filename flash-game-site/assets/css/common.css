@@ -113,22 +113,19 @@ footer {
 /* Ruffle */
 
 #ruffle-wrapper {
-    width: 400px;
-    height: 300px;
+    width: 100%;
     margin: 0 auto;
+    display: flex;
+    justify-content: center;
     overflow: hidden;
 }
 
 #ruffle-container {
-    width: 400px;
-    height: 300px;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
-    overflow: hidden;
+    flex-shrink: 0;
 }
 
 #ruffle-container ruffle-player {
-    width: 400px !important;
-    height: 300px !important;
     display: block !important;
 }

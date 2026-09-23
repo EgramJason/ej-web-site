@@ -117,30 +117,26 @@ footer {
 
 #ruffle-wrapper {
     width: 100%;
-    margin: 0;
-    padding: 0;
+    margin: 0 auto;
 
-    display: block;
+    display: flex;
+
+    /* 横方向の中央揃え */
+    justify-content: center;
+
+    /* 上端を揃える */
+    align-items: flex-start;
 
     overflow: hidden;
 }
 
 #ruffle-container {
-    margin-left: auto !important;
-    margin-right: auto !important;
-
-    margin-top: 0;
-    margin-bottom: 0;
-
+    margin: 0;
     padding: 0;
 
+    flex: 0 0 auto;
+
     position: relative;
-
-    display: block;
-
-    width: fit-content;
-
-    flex: none;
 }
 
 #ruffle-container ruffle-player {
@@ -173,12 +169,10 @@ footer {
 
     #ruffle-wrapper {
         width: 100%;
-        margin: 0;
-        padding: 0;
-    }
 
-    #ruffle-container {
-        margin-left: auto !important;
-        margin-right: auto !important;
+        /* スマホでも中央揃え */
+        justify-content: center;
+
+        overflow: hidden;
     }
 }

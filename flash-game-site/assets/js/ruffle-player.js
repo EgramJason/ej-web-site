@@ -1,13 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const container = document.getElementById("ruffle-container");
+    const container =
+        document.getElementById("ruffle-container");
 
-    if (!container) {
+    const wrapper =
+        document.getElementById("ruffle-wrapper");
+
+    if (!container || !wrapper) {
         return;
     }
 
-    const ruffle = window.RufflePlayer.newest();
-    const player = ruffle.createPlayer();
+    const ruffle =
+        window.RufflePlayer.newest();
+
+    const player =
+        ruffle.createPlayer();
 
     const gameWidth = 800;
     const gameHeight = 600;
@@ -16,61 +23,189 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function resizeGame() {
 
-        const vw = document.documentElement.clientWidth;
-        const vh = document.documentElement.clientHeight;
+        /*
+         * 現在のブラウザ表示領域
+         */
+        const viewport =
+            window.visualViewport;
 
-        // HTMLの余白やsectionの左右paddingを考慮
-        const maxWidth = vw - 40;
-        const maxHeight = vh - 40;
+        const screenWidth =
+            viewport
+                ? viewport.width
+                : document.documentElement.clientWidth;
 
-        // 横幅・高さの両方に収まるサイズ
-        let scale = Math.min(
-            maxWidth / gameWidth,
-            maxHeight / gameHeight,
-            1
-        );
+        const screenHeight =
+            viewport
+                ? viewport.height
+                : document.documentElement.clientHeight;
 
-        // iPhone縦向きでも小さくなりすぎないようにする
-        if (scale < 0.1) {
-            scale = 0.1;
+
+        /*
+         * ゲームを画面端ギリギリにしないための余白
+         */
+        const margin = 10;
+
+
+        /*
+         * 横幅として使える最大値
+         */
+        const maxWidth =
+            screenWidth - (margin * 2);
+
+
+        /*
+         * 高さとして使える最大値
+         */
+        const maxHeight =
+            screenHeight - (margin * 2);
+
+
+        /*
+         * 800×600 = 4:3
+         *
+         * 横幅基準で収めた場合
+         */
+        const widthBasedHeight =
+            maxWidth * gameHeight / gameWidth;
+
+
+        /*
+         * 高さ基準で収めた場合
+         */
+        const heightBasedWidth =
+            maxHeight * gameWidth / gameHeight;
+
+
+        /*
+         * 横幅・高さの両方に収まる方を採用
+         */
+        let width;
+
+        if (widthBasedHeight <= maxHeight) {
+
+            /*
+             * 横幅に合わせても高さに収まる
+             */
+            width = maxWidth;
+
+        } else {
+
+            /*
+             * 横幅に合わせると高さを超えるので
+             * 高さに合わせる
+             */
+            width = heightBasedWidth;
         }
 
-        const width = Math.floor(gameWidth * scale);
-        const height = Math.floor(gameHeight * scale);
 
-        // container
-        container.style.width = width + "px";
-        container.style.height = height + "px";
+        /*
+         * PCでは最大800px
+         */
+        width =
+            Math.min(width, gameWidth);
 
-        // Ruffle本体
-        player.style.width = width + "px";
-        player.style.height = height + "px";
-        player.style.maxWidth = "none";
-        player.style.maxHeight = "none";
-        player.style.display = "block";
 
-        console.log(
-            "viewport:",
-            vw,
-            "x",
-            vh,
-            "game:",
-            width,
-            "x",
-            height
+        const height =
+            width * gameHeight / gameWidth;
+
+
+        const finalWidth =
+            Math.floor(width);
+
+        const finalHeight =
+            Math.floor(height);
+
+
+        /*
+         * Ruffle本体のサイズ
+         */
+        player.style.setProperty(
+            "width",
+            finalWidth + "px",
+            "important"
+        );
+
+        player.style.setProperty(
+            "height",
+            finalHeight + "px",
+            "important"
+        );
+
+
+        /*
+         * 親コンテナのサイズ
+         */
+        container.style.width =
+            finalWidth + "px";
+
+        container.style.height =
+            finalHeight + "px";
+
+
+        /*
+         * 念のためRuffleの属性にも設定
+         */
+        player.setAttribute(
+            "width",
+            finalWidth
+        );
+
+        player.setAttribute(
+            "height",
+            finalHeight
         );
     }
 
-    player.ruffle().load("cr_miyoco_dw_8.swf");
 
-    // 最初のサイズ設定
+    /*
+     * SWF読み込み
+     */
+    player.ruffle().load(
+        "cr_miyoco_dw_8.swf"
+    );
+
+
+    /*
+     * 初回サイズ設定
+     */
     resizeGame();
 
-    // 画面サイズ変更
-    window.addEventListener("resize", resizeGame);
 
-    window.addEventListener("orientationchange", () => {
-        setTimeout(resizeGame, 300);
-    });
+    /*
+     * 画面サイズ変更
+     */
+    window.addEventListener(
+        "resize",
+        resizeGame
+    );
+
+
+    /*
+     * iPhoneの縦横回転
+     */
+    window.addEventListener(
+        "orientationchange",
+        () => {
+
+            setTimeout(
+                resizeGame,
+                300
+            );
+
+        }
+    );
+
+
+    /*
+     * Safariの表示領域変更
+     */
+    if (window.visualViewport) {
+
+        window.visualViewport.addEventListener(
+            "resize",
+            resizeGame
+        );
+
+    }
 
 });

@@ -1,34 +1,125 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
+    /*
+     * Ruffleを表示するコンテナ
+     */
     const container =
         document.getElementById("ruffle-container");
 
+
+    /*
+     * Ruffle全体を囲むコンテナ
+     */
     const wrapper =
         document.getElementById("ruffle-wrapper");
 
-    if (!container || !wrapper) {
+
+    /*
+     * HTML側から読み込むSWFのパスを取得
+     *
+     * games/index.html
+     *     → ./test/cr_miyoco_dw_8.swf
+     *
+     * games/test/index.html
+     *     → ./cr_miyoco_dw_8.swf
+     *
+     * のようにページごとに指定できます。
+     */
+    const swfPath =
+        container?.dataset.swf;
+
+
+    /*
+     * 必要な要素がない場合は終了
+     */
+    if (!container || !wrapper || !swfPath) {
+        console.error(
+            "Ruffle: ruffle-container または data-swf が見つかりません。"
+        );
         return;
     }
 
-    const ruffle =
-        window.RufflePlayer.newest();
 
+    /*
+     * Ruffleの読み込みを少し待つ
+     *
+     * GitHub Pagesなどでruffle.jsの読み込みが
+     * 少し遅れた場合にも対応します。
+     */
+    let ruffle = null;
+
+    for (let i = 0; i < 100; i++) {
+
+        if (
+            window.RufflePlayer &&
+            typeof window.RufflePlayer.newest === "function"
+        ) {
+            ruffle =
+                window.RufflePlayer.newest();
+
+            break;
+        }
+
+        await new Promise((resolve) => {
+            setTimeout(resolve, 50);
+        });
+    }
+
+
+    /*
+     * Ruffleそのものが読み込めなかった場合
+     */
+    if (!ruffle) {
+
+        showError(
+            "Ruffleを読み込めませんでした。"
+            + "ruffle/ruffle.js が正しく配置されているか確認してください。"
+        );
+
+        return;
+    }
+
+
+    /*
+     * Ruffleプレイヤーを作成
+     */
     const player =
         ruffle.createPlayer();
 
+
+    /*
+     * ゲーム本来のサイズ
+     *
+     * 800 × 600
+     */
     const gameWidth = 800;
     const gameHeight = 600;
 
-    container.appendChild(player);
 
+    /*
+     * 画面端との余白
+     */
+    const margin = 10;
+
+
+    /*
+     * まずプレイヤーをコンテナへ追加
+     */
+    container.replaceChildren(player);
+
+
+    /*
+     * ゲームサイズを調整
+     */
     function resizeGame() {
 
-        /*
-         * 現在のブラウザ表示領域
-         */
         const viewport =
             window.visualViewport;
 
+
+        /*
+         * 現在の画面サイズ
+         */
         const screenWidth =
             viewport
                 ? viewport.width
@@ -41,138 +132,104 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /*
-         * ゲームを画面端ギリギリにしないための余白
-         */
-        const margin = 10;
-
-
-        /*
-         * 横幅として使える最大値
+         * 使用可能なサイズ
          */
         const maxWidth =
-            screenWidth - (margin * 2);
+            Math.max(
+                1,
+                screenWidth - margin * 2
+            );
 
-
-        /*
-         * 高さとして使える最大値
-         */
         const maxHeight =
-            screenHeight - (margin * 2);
+            Math.max(
+                1,
+                screenHeight - margin * 2
+            );
 
 
         /*
-         * 800×600 = 4:3
-         *
-         * 横幅基準で収めた場合
+         * 800×600 の比率を維持して、
+         * 横幅・高さの両方に収まるサイズを計算
          */
-        const widthBasedHeight =
-            maxWidth * gameHeight / gameWidth;
+        let width =
+            Math.min(
+                gameWidth,
+                maxWidth,
+                maxHeight * gameWidth / gameHeight
+            );
 
 
         /*
-         * 高さ基準で収めた場合
-         */
-        const heightBasedWidth =
-            maxHeight * gameWidth / gameHeight;
-
-
-        /*
-         * 横幅・高さの両方に収まる方を採用
-         */
-        let width;
-
-        if (widthBasedHeight <= maxHeight) {
-
-            /*
-             * 横幅に合わせても高さに収まる
-             */
-            width = maxWidth;
-
-        } else {
-
-            /*
-             * 横幅に合わせると高さを超えるので
-             * 高さに合わせる
-             */
-            width = heightBasedWidth;
-        }
-
-
-        /*
-         * PCでは最大800px
+         * 小数点以下を切り捨て
          */
         width =
-            Math.min(width, gameWidth);
-
-
-        const height =
-            width * gameHeight / gameWidth;
-
-
-        const finalWidth =
-            Math.floor(width);
-
-        const finalHeight =
-            Math.floor(height);
+            Math.max(
+                1,
+                Math.floor(width)
+            );
 
 
         /*
-         * Ruffle本体のサイズ
+         * 4:3比率で高さを計算
+         */
+        const height =
+            Math.max(
+                1,
+                Math.floor(
+                    width * gameHeight / gameWidth
+                )
+            );
+
+
+        /*
+         * Ruffleプレイヤーのサイズを指定
          */
         player.style.setProperty(
             "width",
-            finalWidth + "px",
+            `${width}px`,
             "important"
         );
 
         player.style.setProperty(
             "height",
-            finalHeight + "px",
+            `${height}px`,
             "important"
         );
 
 
         /*
-         * 親コンテナのサイズ
+         * コンテナのサイズも合わせる
          */
         container.style.width =
-            finalWidth + "px";
+            `${width}px`;
 
         container.style.height =
-            finalHeight + "px";
+            `${height}px`;
 
 
         /*
-         * 念のためRuffleの属性にも設定
+         * Ruffle側の属性にもサイズを設定
          */
         player.setAttribute(
             "width",
-            finalWidth
+            String(width)
         );
 
         player.setAttribute(
             "height",
-            finalHeight
+            String(height)
         );
     }
 
 
     /*
-     * SWF読み込み
-     */
-    player.ruffle().load(
-        "cr_miyoco_dw_8.swf"
-    );
-
-
-    /*
-     * 初回サイズ設定
+     * 最初のサイズを設定
      */
     resizeGame();
 
 
     /*
-     * 画面サイズ変更
+     * ブラウザのサイズ変更
      */
     window.addEventListener(
         "resize",
@@ -181,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /*
-     * iPhoneの縦横回転
+     * スマートフォンの縦横回転
      */
     window.addEventListener(
         "orientationchange",
@@ -197,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /*
-     * Safariの表示領域変更
+     * Safariなどの表示領域変更
      */
     if (window.visualViewport) {
 
@@ -206,6 +263,72 @@ document.addEventListener("DOMContentLoaded", () => {
             resizeGame
         );
 
+    }
+
+
+    /*
+     * ページのURLを基準にSWFの絶対URLを作る
+     *
+     * /games/
+     *     → /games/test/cr_miyoco_dw_8.swf
+     *
+     * /games/test/
+     *     → /games/test/cr_miyoco_dw_8.swf
+     */
+    const swfUrl =
+        new URL(
+            swfPath,
+            document.baseURI
+        ).href;
+
+
+    /*
+     * SWFを読み込む
+     */
+    try {
+
+        await player.ruffle().load(
+            swfUrl
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Ruffle SWF load failed:",
+            error
+        );
+
+        showError(
+            "ゲームを読み込めませんでした。"
+            + "\n"
+            + swfUrl
+        );
+    }
+
+
+    /*
+     * エラー表示
+     */
+    function showError(message) {
+
+        const error =
+            document.createElement("p");
+
+        error.textContent =
+            message;
+
+        error.style.marginTop =
+            "15px";
+
+        error.style.color =
+            "#b00020";
+
+        error.style.whiteSpace =
+            "pre-wrap";
+
+        container.replaceChildren(
+            error
+        );
     }
 
 });

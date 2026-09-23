@@ -16,8 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const gameWidth = 800;
     const gameHeight = 600;
 
-    player.style.width = gameWidth + "px";
-    player.style.height = gameHeight + "px";
     player.style.display = "block";
     player.style.transformOrigin = "top left";
 
@@ -29,10 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const screenHeight = window.innerHeight;
 
         /*
-         * ゲーム以外に使われるページ上部の高さを考慮
+         * ページ上部のヘッダーやタイトルなどを考慮して、
+         * ゲームに使える高さを計算
          */
-        const availableHeight =
-            screenHeight - 180;
+        const availableHeight = screenHeight - 180;
 
         const widthScale =
             screenWidth / gameWidth;
@@ -40,17 +38,32 @@ document.addEventListener("DOMContentLoaded", () => {
         const heightScale =
             availableHeight / gameHeight;
 
+        /*
+         * 画面に収まる範囲で縮小
+         */
         const scale =
-            Math.min(1, widthScale, heightScale);
+            Math.min(1, widthScale, heightScale) * 0.9;
 
-        player.style.transform =
-            "scale(" + scale + ")";
+        const displayWidth =
+            gameWidth * scale;
+
+        const displayHeight =
+            gameHeight * scale;
+
+        /*
+         * Ruffle本体そのもののサイズを変更
+         */
+        player.style.width =
+            displayWidth + "px";
+
+        player.style.height =
+            displayHeight + "px";
 
         container.style.width =
-            (gameWidth * scale) + "px";
+            displayWidth + "px";
 
         container.style.height =
-            (gameHeight * scale) + "px";
+            displayHeight + "px";
     }
 
     window.addEventListener("resize", resizeGame);

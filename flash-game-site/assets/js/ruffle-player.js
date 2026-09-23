@@ -26,32 +26,29 @@ document.addEventListener("DOMContentLoaded", () => {
     function resizeGame() {
 
         const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
 
-        if (screenWidth < gameWidth) {
+        /*
+         * 横方向・縦方向の両方に収まる縮小率を計算
+         * さらに5%ほど余裕を持たせる
+         */
+        const widthScale =
+            screenWidth / gameWidth;
 
-            const scale =
-                screenWidth / gameWidth;
+        const heightScale =
+            screenHeight / gameHeight;
 
-            player.style.transform =
-                "scale(" + scale + ")";
+        const scale =
+            Math.min(1, widthScale, heightScale) * 0.95;
 
-            container.style.width =
-                screenWidth + "px";
+        player.style.transform =
+            "scale(" + scale + ")";
 
-            container.style.height =
-                (gameHeight * scale) + "px";
+        container.style.width =
+            (gameWidth * scale) + "px";
 
-        } else {
-
-            player.style.transform =
-                "scale(1)";
-
-            container.style.width =
-                gameWidth + "px";
-
-            container.style.height =
-                gameHeight + "px";
-        }
+        container.style.height =
+            (gameHeight * scale) + "px";
     }
 
     window.addEventListener("resize", resizeGame);

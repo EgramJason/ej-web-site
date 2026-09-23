@@ -11,6 +11,7 @@ body {
     margin: 0;
     background: #f5f5f5;
     color: #222;
+
     font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -110,7 +111,9 @@ footer {
 }
 
 
-/* Ruffle */
+/* ========================================
+   Ruffle
+   ======================================== */
 
 #ruffle-wrapper {
     width: 100%;
@@ -118,17 +121,52 @@ footer {
 
     display: flex;
     justify-content: center;
+    align-items: flex-start;
 
     overflow: hidden;
 }
 
 #ruffle-container {
-    margin: 0 auto;
+    margin: 0;
     padding: 0;
 
     flex-shrink: 0;
+
+    position: relative;
 }
 
 #ruffle-container ruffle-player {
     display: block !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    max-width: none !important;
+    max-height: none !important;
+
+    min-width: 0 !important;
+    min-height: 0 !important;
+}
+
+
+/* ========================================
+   スマートフォン
+   ======================================== */
+
+@media (max-width: 600px) {
+
+    main {
+        padding: 20px 10px;
+    }
+
+    section {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    #ruffle-wrapper {
+        width: 100%;
+        overflow: hidden;
+    }
+
 }

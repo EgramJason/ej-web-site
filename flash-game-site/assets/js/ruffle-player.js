@@ -13,8 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const player =
         ruffle.createPlayer();
 
-    player.style.width = "800px";
-    player.style.height = "600px";
+    player.style.width = "400px";
+    player.style.height = "300px";
     player.style.display = "block";
 
     container.appendChild(player);

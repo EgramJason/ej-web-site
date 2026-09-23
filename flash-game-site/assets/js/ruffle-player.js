@@ -23,18 +23,27 @@ document.addEventListener("DOMContentLoaded", () => {
     function resizeGame() {
 
         const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
 
         /*
-         * PCでは800×600のまま
-         * スマホでは画面幅に合わせて縮小
+         * 横向き・縦向きで使えるサイズを計算
          */
-        const availableWidth =
-            screenWidth - 40;
+        const availableWidth = screenWidth - 20;
+        const availableHeight = screenHeight - 20;
+
+        /*
+         * 横幅基準と高さ基準の両方から、
+         * 800×600の比率を維持できるサイズを決める
+         */
+        const widthByWidth = availableWidth;
+        const widthByHeight =
+            availableHeight * gameWidth / gameHeight;
 
         const width =
             Math.min(
                 gameWidth,
-                availableWidth
+                widthByWidth,
+                widthByHeight
             );
 
         const height =

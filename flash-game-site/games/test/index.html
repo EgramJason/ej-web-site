@@ -360,6 +360,9 @@
                 ];
 
 
+                const players = [];
+
+
                 for (const game of games) {
 
                     const container =
@@ -377,10 +380,10 @@
                         ruffle.createPlayer();
 
 
-                    player.style.width = "800px";
-                    player.style.height = "600px";
-                    player.style.maxWidth = "100%";
                     player.style.display = "block";
+
+
+                    player.style.maxWidth = "100%";
 
 
                     container.appendChild(
@@ -388,16 +391,168 @@
                     );
 
 
+                    players.push({
+                        container: container,
+                        player: player,
+                        swf: game.swf
+                    });
+
+                }
+
+
+
+                function resizeGames() {
+
+                    const viewport =
+                        window.visualViewport;
+
+
+                    const screenWidth =
+                        viewport?.width ??
+                        document.documentElement.clientWidth;
+
+
+                    const screenHeight =
+                        viewport?.height ??
+                        document.documentElement.clientHeight;
+
+
+                    const GAME_WIDTH = 800;
+                    const GAME_HEIGHT = 600;
+
+
+                    /*
+                        画面の縦横両方に収まるサイズを計算
+
+                        800 : 600
+                        = 4 : 3
+                    */
+
+
+                    const maxWidth =
+                        Math.max(
+                            1,
+                            screenWidth
+                        );
+
+
+                    const maxHeight =
+                        Math.max(
+                            1,
+                            screenHeight
+                        );
+
+
+                    let width =
+                        Math.min(
+                            GAME_WIDTH,
+                            maxWidth,
+                            maxHeight *
+                            GAME_WIDTH /
+                            GAME_HEIGHT
+                        );
+
+
+                    width =
+                        Math.max(
+                            1,
+                            Math.floor(width)
+                        );
+
+
+                    const height =
+                        Math.max(
+                            1,
+                            Math.floor(
+                                width *
+                                GAME_HEIGHT /
+                                GAME_WIDTH
+                            )
+                        );
+
+
+                    for (const item of players) {
+
+                        item.player.style.setProperty(
+                            "width",
+                            `${width}px`,
+                            "important"
+                        );
+
+
+                        item.player.style.setProperty(
+                            "height",
+                            `${height}px`,
+                            "important"
+                        );
+
+
+                        item.container.style.width =
+                            `${width}px`;
+
+
+                        item.container.style.height =
+                            `${height}px`;
+
+
+                        item.player.setAttribute(
+                            "width",
+                            String(width)
+                        );
+
+
+                        item.player.setAttribute(
+                            "height",
+                            String(height)
+                        );
+
+                    }
+
+                }
+
+
+
+                resizeGames();
+
+
+                window.addEventListener(
+                    "resize",
+                    resizeGames
+                );
+
+
+                window.addEventListener(
+                    "orientationchange",
+                    () => {
+
+                        setTimeout(
+                            resizeGames,
+                            300
+                        );
+
+                    }
+                );
+
+
+                window.visualViewport?.addEventListener(
+                    "resize",
+                    resizeGames
+                );
+
+
+
+                for (const item of players) {
+
                     const swfUrl =
                         new URL(
-                            game.swf,
+                            item.swf,
                             document.baseURI
                         ).href;
 
 
                     try {
 
-                        await player.ruffle().load(
+                        await item.player.ruffle().load(
                             swfUrl
                         );
 

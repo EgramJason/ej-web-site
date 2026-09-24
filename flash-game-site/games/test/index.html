@@ -30,6 +30,31 @@
         src="../../ruffle/ruffle.js"
     ></script>
 
+
+    <style>
+
+        #ruffle-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .game {
+            display: block;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .game p {
+            margin: 0 0 10px 0;
+        }
+
+        .ruffle-container {
+            display: block;
+        }
+
+    </style>
+
 </head>
 
 
@@ -87,6 +112,7 @@
 
 
             <div id="ruffle-wrapper">
+
 
                 <div class="game">
 
@@ -183,6 +209,7 @@
 
                 </div>
 
+
             </div>
 
         </section>
@@ -201,171 +228,194 @@
     </footer>
 
 
+
     <script>
 
-        window.addEventListener("DOMContentLoaded", async () => {
+        window.addEventListener(
+            "DOMContentLoaded",
+            async () => {
 
-            const ruffle = window.RufflePlayer?.newest?.();
-
-            if (!ruffle) {
-                return;
-            }
-
-
-            const containers =
-                document.querySelectorAll(".ruffle-container");
+                const ruffle =
+                    window.RufflePlayer?.newest?.();
 
 
-            for (const container of containers) {
-
-                const player = ruffle.createPlayer();
-
-                const GAME_WIDTH = 800;
-                const GAME_HEIGHT = 600;
-                const MARGIN = 10;
-
-
-                function resizeGame() {
-
-                    const viewport = window.visualViewport;
-
-                    const screenWidth =
-                        viewport?.width ??
-                        document.documentElement.clientWidth;
-
-                    const screenHeight =
-                        viewport?.height ??
-                        document.documentElement.clientHeight;
-
-
-                    const maxWidth =
-                        Math.max(
-                            0,
-                            screenWidth - MARGIN * 2
-                        );
-
-                    const maxHeight =
-                        Math.max(
-                            0,
-                            screenHeight - MARGIN * 2
-                        );
-
-
-                    let width =
-                        Math.min(
-                            GAME_WIDTH,
-                            maxWidth,
-                            maxHeight *
-                            GAME_WIDTH /
-                            GAME_HEIGHT
-                        );
-
-
-                    width =
-                        Math.max(
-                            1,
-                            Math.floor(width)
-                        );
-
-
-                    const height =
-                        Math.max(
-                            1,
-                            Math.floor(
-                                width *
-                                GAME_HEIGHT /
-                                GAME_WIDTH
-                            )
-                        );
-
-
-                    player.style.setProperty(
-                        "width",
-                        `${width}px`,
-                        "important"
-                    );
-
-                    player.style.setProperty(
-                        "height",
-                        `${height}px`,
-                        "important"
-                    );
-
-
-                    container.style.width =
-                        `${width}px`;
-
-                    container.style.height =
-                        `${height}px`;
-
-
-                    player.setAttribute(
-                        "width",
-                        String(width)
-                    );
-
-                    player.setAttribute(
-                        "height",
-                        String(height)
-                    );
-
+                if (!ruffle) {
+                    return;
                 }
 
 
-                container.appendChild(player);
+                const containers =
+                    document.querySelectorAll(
+                        ".ruffle-container"
+                    );
 
 
-                resizeGame();
+                for (const container of containers) {
+
+                    const player =
+                        ruffle.createPlayer();
 
 
-                window.addEventListener(
-                    "resize",
-                    resizeGame
-                );
+                    const GAME_WIDTH = 800;
+                    const GAME_HEIGHT = 600;
+                    const MARGIN = 10;
 
 
-                window.addEventListener(
-                    "orientationchange",
-                    () => {
-                        setTimeout(
-                            resizeGame,
-                            300
+                    function resizeGame() {
+
+                        const viewport =
+                            window.visualViewport;
+
+
+                        const screenWidth =
+                            viewport?.width ??
+                            document.documentElement.clientWidth;
+
+
+                        const screenHeight =
+                            viewport?.height ??
+                            document.documentElement.clientHeight;
+
+
+                        const maxWidth =
+                            Math.max(
+                                0,
+                                screenWidth -
+                                MARGIN * 2
+                            );
+
+
+                        const maxHeight =
+                            Math.max(
+                                0,
+                                screenHeight -
+                                MARGIN * 2
+                            );
+
+
+                        let width =
+                            Math.min(
+                                GAME_WIDTH,
+                                maxWidth,
+                                maxHeight *
+                                GAME_WIDTH /
+                                GAME_HEIGHT
+                            );
+
+
+                        width =
+                            Math.max(
+                                1,
+                                Math.floor(width)
+                            );
+
+
+                        const height =
+                            Math.max(
+                                1,
+                                Math.floor(
+                                    width *
+                                    GAME_HEIGHT /
+                                    GAME_WIDTH
+                                )
+                            );
+
+
+                        player.style.setProperty(
+                            "width",
+                            `${width}px`,
+                            "important"
                         );
+
+
+                        player.style.setProperty(
+                            "height",
+                            `${height}px`,
+                            "important"
+                        );
+
+
+                        container.style.width =
+                            `${width}px`;
+
+
+                        container.style.height =
+                            `${height}px`;
+
+
+                        player.setAttribute(
+                            "width",
+                            String(width)
+                        );
+
+
+                        player.setAttribute(
+                            "height",
+                            String(height)
+                        );
+
                     }
-                );
 
 
-                window.visualViewport?.addEventListener(
-                    "resize",
-                    resizeGame
-                );
-
-
-                const swfUrl =
-                    new URL(
-                        container.dataset.swf,
-                        document.baseURI
-                    ).href;
-
-
-                try {
-
-                    await player.ruffle().load(
-                        swfUrl
+                    container.appendChild(
+                        player
                     );
 
-                } catch (error) {
 
-                    console.error(
-                        "Ruffle SWF load failed:",
-                        error
+                    resizeGame();
+
+
+                    window.addEventListener(
+                        "resize",
+                        resizeGame
                     );
+
+
+                    window.addEventListener(
+                        "orientationchange",
+                        () => {
+
+                            setTimeout(
+                                resizeGame,
+                                300
+                            );
+
+                        }
+                    );
+
+
+                    window.visualViewport?.addEventListener(
+                        "resize",
+                        resizeGame
+                    );
+
+
+                    const swfUrl =
+                        new URL(
+                            container.dataset.swf,
+                            document.baseURI
+                        ).href;
+
+
+                    try {
+
+                        await player.ruffle().load(
+                            swfUrl
+                        );
+
+                    } catch (error) {
+
+                        console.error(
+                            "Ruffle SWF load failed:",
+                            error
+                        );
+
+                    }
 
                 }
 
             }
-
-        });
+        );
 
     </script>
 

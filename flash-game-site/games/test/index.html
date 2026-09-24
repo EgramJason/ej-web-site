@@ -2,377 +2,719 @@
 <html lang="ja">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Ruffleテスト</title>
 
-    <link rel="stylesheet" href="../../assets/css/common.css">
 
-    <script src="../../ruffle/ruffle.js"></script>
+    <!-- 共通CSS -->
+    <link
+        rel="stylesheet"
+        href="../../assets/css/common.css"
+    >
+
+
+    <!-- Ruffle -->
+    <script
+        src="../../ruffle/ruffle.js"
+    ></script>
+
 
     <style>
+
+        /*
+         * common.css の
+         * #ruffle-wrapper / #ruffle-container
+         * と同じ動作を各ゲームに適用
+         */
+
         .ruffle-wrapper {
             width: 100%;
-            max-width: 800px;
-            aspect-ratio: 4 / 3;
             margin: 0 auto;
+
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+
             overflow: hidden;
         }
+
 
         .ruffle-container {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+            margin: 0;
+            padding: 0;
+
+            flex: 0 0 auto;
+
+            position: relative;
         }
 
+
         .ruffle-container ruffle-player {
-            display: block;
-            width: 100% !important;
-            height: 100% !important;
-            max-width: 100% !important;
-            max-height: 100% !important;
+            display: block !important;
+
+            margin: 0 !important;
+            padding: 0 !important;
+
+            max-width: none !important;
+            max-height: none !important;
+
+            min-width: 0 !important;
+            min-height: 0 !important;
         }
+
+
+        @media (max-width: 600px) {
+
+            .ruffle-wrapper {
+                width: 100%;
+                overflow: hidden;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
+
+    <!-- ヘッダー -->
     <header>
-        <nav>
-            <!-- 共通ヘッダー -->
-        </nav>
+
+        <div class="site-header">
+
+            <a
+                href="../../index.html"
+                class="site-title"
+            >
+                Flashゲームサイト
+            </a>
+
+
+            <nav>
+
+                <a
+                    href="../../index.html"
+                >
+                    ホーム
+                </a>
+
+                <a
+                    href="../"
+                >
+                    ゲーム
+                </a>
+
+            </nav>
+
+        </div>
+
     </header>
 
+
+
+    <!-- メイン -->
     <main>
+
 
         <!-- 8 -->
         <section>
-            <h1>Ruffleテスト 8</h1>
 
-            <p>Ruffleが正常に読み込まれているか確認します。</p>
+            <h1>
+                Ruffleテスト 8
+            </h1>
 
-            <div id="ruffle-wrapper-1" class="ruffle-wrapper">
-                <div id="ruffle-container-1" class="ruffle-container"></div>
+
+            <p>
+                Ruffleが正常に読み込まれているか確認します。
+            </p>
+
+
+            <div class="ruffle-wrapper">
+
+                <div
+                    id="ruffle-container-1"
+                    class="ruffle-container"
+                    aria-label="Flashゲーム"
+                ></div>
+
             </div>
+
         </section>
+
 
 
         <!-- 1 -->
         <section>
-            <h1>Ruffleテスト 1</h1>
 
-            <p>Ruffleが正常に読み込まれているか確認します。</p>
+            <h1>
+                Ruffleテスト 1
+            </h1>
 
-            <div id="ruffle-wrapper-2" class="ruffle-wrapper">
-                <div id="ruffle-container-2" class="ruffle-container"></div>
+
+            <p>
+                Ruffleが正常に読み込まれているか確認します。
+            </p>
+
+
+            <div class="ruffle-wrapper">
+
+                <div
+                    id="ruffle-container-2"
+                    class="ruffle-container"
+                    aria-label="Flashゲーム"
+                ></div>
+
             </div>
+
         </section>
+
 
 
         <!-- d1 -->
         <section>
-            <h1>Ruffleテスト d1</h1>
 
-            <p>Ruffleが正常に読み込まれているか確認します。</p>
+            <h1>
+                Ruffleテスト d1
+            </h1>
 
-            <div id="ruffle-wrapper-3" class="ruffle-wrapper">
-                <div id="ruffle-container-3" class="ruffle-container"></div>
+
+            <p>
+                Ruffleが正常に読み込まれているか確認します。
+            </p>
+
+
+            <div class="ruffle-wrapper">
+
+                <div
+                    id="ruffle-container-3"
+                    class="ruffle-container"
+                    aria-label="Flashゲーム"
+                ></div>
+
             </div>
+
         </section>
+
 
 
         <!-- d2 -->
         <section>
-            <h1>Ruffleテスト d2</h1>
 
-            <p>Ruffleが正常に読み込まれているか確認します。</p>
+            <h1>
+                Ruffleテスト d2
+            </h1>
 
-            <div id="ruffle-wrapper-4" class="ruffle-wrapper">
-                <div id="ruffle-container-4" class="ruffle-container"></div>
+
+            <p>
+                Ruffleが正常に読み込まれているか確認します。
+            </p>
+
+
+            <div class="ruffle-wrapper">
+
+                <div
+                    id="ruffle-container-4"
+                    class="ruffle-container"
+                    aria-label="Flashゲーム"
+                ></div>
+
             </div>
+
         </section>
+
 
 
         <!-- d3 -->
         <section>
-            <h1>Ruffleテスト d3</h1>
 
-            <p>Ruffleが正常に読み込まれているか確認します。</p>
+            <h1>
+                Ruffleテスト d3
+            </h1>
 
-            <div id="ruffle-wrapper-5" class="ruffle-wrapper">
-                <div id="ruffle-container-5" class="ruffle-container"></div>
+
+            <p>
+                Ruffleが正常に読み込まれているか確認します。
+            </p>
+
+
+            <div class="ruffle-wrapper">
+
+                <div
+                    id="ruffle-container-5"
+                    class="ruffle-container"
+                    aria-label="Flashゲーム"
+                ></div>
+
             </div>
+
         </section>
+
 
 
         <!-- d4 -->
         <section>
-            <h1>Ruffleテスト d4</h1>
 
-            <p>Ruffleが正常に読み込まれているか確認します。</p>
+            <h1>
+                Ruffleテスト d4
+            </h1>
 
-            <div id="ruffle-wrapper-6" class="ruffle-wrapper">
-                <div id="ruffle-container-6" class="ruffle-container"></div>
+
+            <p>
+                Ruffleが正常に読み込まれているか確認します。
+            </p>
+
+
+            <div class="ruffle-wrapper">
+
+                <div
+                    id="ruffle-container-6"
+                    class="ruffle-container"
+                    aria-label="Flashゲーム"
+                ></div>
+
             </div>
+
         </section>
+
 
 
         <!-- d5 -->
         <section>
-            <h1>Ruffleテスト d5</h1>
 
-            <p>Ruffleが正常に読み込まれているか確認します。</p>
+            <h1>
+                Ruffleテスト d5
+            </h1>
 
-            <div id="ruffle-wrapper-7" class="ruffle-wrapper">
-                <div id="ruffle-container-7" class="ruffle-container"></div>
+
+            <p>
+                Ruffleが正常に読み込まれているか確認します。
+            </p>
+
+
+            <div class="ruffle-wrapper">
+
+                <div
+                    id="ruffle-container-7"
+                    class="ruffle-container"
+                    aria-label="Flashゲーム"
+                ></div>
+
             </div>
+
         </section>
+
 
 
         <!-- d6 -->
         <section>
-            <h1>Ruffleテスト d6</h1>
 
-            <p>Ruffleが正常に読み込まれているか確認します。</p>
+            <h1>
+                Ruffleテスト d6
+            </h1>
 
-            <div id="ruffle-wrapper-8" class="ruffle-wrapper">
-                <div id="ruffle-container-8" class="ruffle-container"></div>
+
+            <p>
+                Ruffleが正常に読み込まれているか確認します。
+            </p>
+
+
+            <div class="ruffle-wrapper">
+
+                <div
+                    id="ruffle-container-8"
+                    class="ruffle-container"
+                    aria-label="Flashゲーム"
+                ></div>
+
             </div>
+
         </section>
+
 
     </main>
 
 
+
+    <!-- フッター -->
     <footer>
-        <p>&copy; egramjason.github.io</p>
+
+        <p>
+            &copy; 2026 Flashゲームサイト
+        </p>
+
     </footer>
 
 
+
     <script>
-        window.addEventListener("DOMContentLoaded", async () => {
 
-            const ruffle = window.RufflePlayer?.newest?.();
+        window.addEventListener(
+            "DOMContentLoaded",
+            async () => {
 
-            if (!ruffle) {
-                console.error("Ruffleが読み込まれていません。");
-                return;
-            }
-
-
-            const games = [
-                {
-                    container: "ruffle-container-1",
-                    swf: "./cr_miyoco_dw_8.swf"
-                },
-                {
-                    container: "ruffle-container-2",
-                    swf: "./cr_miyoco_dw_1.swf"
-                },
-                {
-                    container: "ruffle-container-3",
-                    swf: "./cr_miyoco_dw_d1.swf"
-                },
-                {
-                    container: "ruffle-container-4",
-                    swf: "./cr_miyoco_dw_d2a.swf"
-                },
-                {
-                    container: "ruffle-container-5",
-                    swf: "./cr_miyoco_dw_d3s.swf"
-                },
-                {
-                    container: "ruffle-container-6",
-                    swf: "./cr_miyoco_dw_d4h.swf"
-                },
-                {
-                    container: "ruffle-container-7",
-                    swf: "./cr_miyoco_dw_d5c.swf"
-                },
-                {
-                    container: "ruffle-container-8",
-                    swf: "./cr_miyoco_dw_d6an.swf"
-                }
-            ];
+                const ruffle =
+                    window.RufflePlayer?.newest?.();
 
 
-            const players = [];
+                if (!ruffle) {
 
+                    console.error(
+                        "Ruffleを読み込めませんでした。"
+                    );
 
-            /*
-             * Ruffleプレイヤーを作成
-             */
-            for (const game of games) {
-
-                const container =
-                    document.getElementById(game.container);
-
-                if (!container) {
-                    continue;
+                    return;
                 }
 
 
-                const player = ruffle.createPlayer();
+                const games = [
 
-                player.style.display = "block";
+                    {
+                        container:
+                            "ruffle-container-1",
+
+                        swf:
+                            "./cr_miyoco_dw_8.swf"
+                    },
+
+                    {
+                        container:
+                            "ruffle-container-2",
+
+                        swf:
+                            "./cr_miyoco_dw_1.swf"
+                    },
+
+                    {
+                        container:
+                            "ruffle-container-3",
+
+                        swf:
+                            "./cr_miyoco_dw_d1.swf"
+                    },
+
+                    {
+                        container:
+                            "ruffle-container-4",
+
+                        swf:
+                            "./cr_miyoco_dw_d2a.swf"
+                    },
+
+                    {
+                        container:
+                            "ruffle-container-5",
+
+                        swf:
+                            "./cr_miyoco_dw_d3s.swf"
+                    },
+
+                    {
+                        container:
+                            "ruffle-container-6",
+
+                        swf:
+                            "./cr_miyoco_dw_d4h.swf"
+                    },
+
+                    {
+                        container:
+                            "ruffle-container-7",
+
+                        swf:
+                            "./cr_miyoco_dw_d5c.swf"
+                    },
+
+                    {
+                        container:
+                            "ruffle-container-8",
+
+                        swf:
+                            "./cr_miyoco_dw_d6an.swf"
+                    }
+
+                ];
 
 
-                container.appendChild(player);
+                const players = [];
 
-
-                players.push({
-                    container: container,
-                    player: player,
-                    swf: game.swf
-                });
-            }
-
-
-            /*
-             * 800 × 600（4:3）を基準に
-             * 画面幅に合わせて縮小する
-             */
-            function resizeGames() {
-
-                const GAME_WIDTH = 800;
-                const GAME_HEIGHT = 600;
 
                 /*
-                 * common.cssなどによる余白を考慮して
-                 * 左右10pxずつ空ける
+                 * Ruffleプレイヤー作成
                  */
-                const maxWidth =
-                    document.documentElement.clientWidth - 20;
+
+                for (const game of games) {
+
+                    const container =
+                        document.getElementById(
+                            game.container
+                        );
+
+
+                    if (!container) {
+                        continue;
+                    }
+
+
+                    const player =
+                        ruffle.createPlayer();
+
+
+                    container.replaceChildren(
+                        player
+                    );
+
+
+                    players.push({
+
+                        container:
+                            container,
+
+                        wrapper:
+                            container.parentElement,
+
+                        player:
+                            player,
+
+                        swf:
+                            game.swf
+
+                    });
+
+                }
+
 
 
                 /*
-                 * 最大800px、
-                 * スマホでは画面幅に合わせる
+                 * 正常に表示される1ゲーム版と
+                 * 同じサイズ計算
+                 *
+                 * 重要：
+                 * document全体の幅ではなく、
+                 * 各wrapperの実際の幅を使う。
                  */
-                const width =
-                    Math.min(GAME_WIDTH, maxWidth);
+
+                function resizeGames() {
+
+                    const GAME_WIDTH = 800;
+                    const GAME_HEIGHT = 600;
+                    const MARGIN = 10;
+
+
+                    const viewport =
+                        window.visualViewport;
+
+
+                    const screenHeight =
+                        viewport?.height ??
+                        document.documentElement.clientHeight;
+
+
+                    for (const item of players) {
+
+
+                        /*
+                         * section内の
+                         * 実際に使える幅
+                         */
+
+                        const wrapperWidth =
+                            item.wrapper.clientWidth;
+
+
+                        const maxWidth =
+                            Math.max(
+                                0,
+                                wrapperWidth -
+                                MARGIN * 2
+                            );
+
+
+                        const maxHeight =
+                            Math.max(
+                                0,
+                                screenHeight -
+                                MARGIN * 2
+                            );
+
+
+                        /*
+                         * 800×600を基準に
+                         * 4:3を維持
+                         */
+
+                        let width =
+                            Math.min(
+                                GAME_WIDTH,
+                                maxWidth,
+                                maxHeight *
+                                GAME_WIDTH /
+                                GAME_HEIGHT
+                            );
+
+
+                        width =
+                            Math.max(
+                                1,
+                                Math.floor(width)
+                            );
+
+
+                        const height =
+                            Math.max(
+                                1,
+                                Math.floor(
+                                    width *
+                                    GAME_HEIGHT /
+                                    GAME_WIDTH
+                                )
+                            );
+
+
+                        /*
+                         * Ruffle本体
+                         */
+
+                        item.player.style.setProperty(
+                            "width",
+                            `${width}px`,
+                            "important"
+                        );
+
+
+                        item.player.style.setProperty(
+                            "height",
+                            `${height}px`,
+                            "important"
+                        );
+
+
+                        /*
+                         * container
+                         */
+
+                        item.container.style.width =
+                            `${width}px`;
+
+
+                        item.container.style.height =
+                            `${height}px`;
+
+
+                        /*
+                         * Ruffleにもサイズを指定
+                         */
+
+                        item.player.setAttribute(
+                            "width",
+                            String(width)
+                        );
+
+
+                        item.player.setAttribute(
+                            "height",
+                            String(height)
+                        );
+
+                    }
+
+                }
+
 
 
                 /*
-                 * 4:3を維持
+                 * 初回サイズ設定
                  */
-                const height =
-                    width * GAME_HEIGHT / GAME_WIDTH;
 
+                resizeGames();
+
+
+
+                /*
+                 * ウィンドウサイズ変更
+                 */
+
+                window.addEventListener(
+                    "resize",
+                    resizeGames
+                );
+
+
+
+                /*
+                 * スマホの縦・横回転
+                 */
+
+                window.addEventListener(
+                    "orientationchange",
+                    () => {
+
+                        setTimeout(
+                            resizeGames,
+                            300
+                        );
+
+                    }
+                );
+
+
+
+                /*
+                 * SafariのvisualViewport変更
+                 */
+
+                window.visualViewport?.addEventListener(
+                    "resize",
+                    resizeGames
+                );
+
+
+
+                /*
+                 * SWF読み込み
+                 */
 
                 for (const item of players) {
 
-                    /*
-                     * 外側
-                     */
-                    item.container.style.width =
-                        `${width}px`;
-
-                    item.container.style.height =
-                        `${height}px`;
+                    const swfUrl =
+                        new URL(
+                            item.swf,
+                            document.baseURI
+                        ).href;
 
 
-                    /*
-                     * Ruffle本体
-                     */
-                    item.player.style.setProperty(
-                        "width",
-                        `${width}px`,
-                        "important"
-                    );
+                    try {
 
-                    item.player.style.setProperty(
-                        "height",
-                        `${height}px`,
-                        "important"
-                    );
+                        await item.player
+                            .ruffle()
+                            .load(swfUrl);
 
-                    item.player.style.setProperty(
-                        "max-width",
-                        `${width}px`,
-                        "important"
-                    );
+                    } catch (error) {
 
-                    item.player.style.setProperty(
-                        "max-height",
-                        `${height}px`,
-                        "important"
-                    );
+                        console.error(
+                            "Ruffle SWF load failed:",
+                            error
+                        );
 
+                    }
 
-                    /*
-                     * Ruffle側にもサイズを指定
-                     */
-                    item.player.setAttribute(
-                        "width",
-                        String(Math.floor(width))
-                    );
-
-                    item.player.setAttribute(
-                        "height",
-                        String(Math.floor(height))
-                    );
                 }
+
             }
 
+        );
 
-            /*
-             * 初期サイズ
-             */
-            resizeGames();
-
-
-            /*
-             * 画面サイズ変更
-             */
-            window.addEventListener(
-                "resize",
-                resizeGames
-            );
-
-
-            /*
-             * スマホの縦・横回転
-             */
-            window.addEventListener(
-                "orientationchange",
-                () => {
-                    setTimeout(
-                        resizeGames,
-                        300
-                    );
-                }
-            );
-
-
-            /*
-             * 各SWFを読み込む
-             */
-            for (const item of players) {
-
-                const swfUrl =
-                    new URL(
-                        item.swf,
-                        document.baseURI
-                    ).href;
-
-                try {
-
-                    await item.player
-                        .ruffle()
-                        .load(swfUrl);
-
-                } catch (error) {
-
-                    console.error(
-                        "Ruffle SWF load failed:",
-                        error
-                    );
-                }
-            }
-
-        });
     </script>
+
 
 </body>
 

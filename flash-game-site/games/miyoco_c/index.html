@@ -76,30 +76,73 @@
         <section>
 
             <h1>
-                CR河原美代子DW_Type_C
+                CR河原美代子DW_type_e
             </h1>
 
-
             <p>
-                Flashゲームをプレイできます。
+                確率大幅アップ
             </p>
 
-
-            <div id="ruffle-wrapper">
+            <div class="ruffle-wrapper">
 
                 <div
-                    id="ruffle-container"
-                    data-swf="./cr_miyoco_dw_c.swf"
-                    aria-label="CRミヨコ DW C"
+                    id="ruffle-container-1"
+                    class="ruffle-container"
+                    aria-label="Flashゲーム"
                 ></div>
 
             </div>
 
         </section>
 
+        <section>
+
+            <h1>
+                CR河原美代子DW_type_e5ap
+            </h1>
+
+            <p>
+                確率大幅アップ&アシスト&PD生存率UP
+            </p>
+
+            <div class="ruffle-wrapper">
+
+                <div
+                    id="ruffle-container-2"
+                    class="ruffle-container"
+                    aria-label="Flashゲーム"
+                ></div>
+
+            </div>
+
+        </section>
+
+        <section>
+
+            <h1>
+                CR河原美代子DW_type_e6apt
+            </h1>
+
+            <p>
+                スイカ33%&アシスト&PD生存率UP
+            </p>
+
+            <div class="ruffle-wrapper">
+
+                <div
+                    id="ruffle-container-3"
+                    class="ruffle-container"
+                    aria-label="Flashゲーム"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+
+
     </main>
-
-
 
     <footer>
 
@@ -108,6 +151,325 @@
         </p>
 
     </footer>
+
+    <script>
+
+        window.addEventListener(
+            "DOMContentLoaded",
+            async () => {
+
+                const ruffle =
+                    window.RufflePlayer?.newest?.();
+
+
+                if (!ruffle) {
+
+                    console.error(
+                        "Ruffleを読み込めませんでした。"
+                    );
+
+                    return;
+                }
+
+
+                const games = [
+
+                    {
+                        container:
+                            "ruffle-container-1",
+
+                        swf:
+                            "./cr_miyoco_dw_e.swf"
+                    },
+
+                    {
+                        container:
+                            "ruffle-container-2",
+
+                        swf:
+                            "./cr_miyoco_dw_e5ap.swf"
+                    },
+
+                    {
+                        container:
+                            "ruffle-container-3",
+
+                        swf:
+                            "./cr_miyoco_dw_e6apt.swf"
+                    },
+                ];
+
+
+                const players = [];
+
+
+                /*
+                 * Ruffleプレイヤー作成
+                 */
+
+                for (const game of games) {
+
+                    const container =
+                        document.getElementById(
+                            game.container
+                        );
+
+
+                    if (!container) {
+                        continue;
+                    }
+
+
+                    const player =
+                        ruffle.createPlayer();
+
+
+                    container.replaceChildren(
+                        player
+                    );
+
+
+                    players.push({
+
+                        container:
+                            container,
+
+                        wrapper:
+                            container.parentElement,
+
+                        player:
+                            player,
+
+                        swf:
+                            game.swf
+
+                    });
+
+                }
+
+
+
+                /*
+                 * 正常に表示される1ゲーム版と
+                 * 同じサイズ計算
+                 *
+                 * 重要：
+                 * document全体の幅ではなく、
+                 * 各wrapperの実際の幅を使う。
+                 */
+
+                function resizeGames() {
+
+                    const GAME_WIDTH = 800;
+                    const GAME_HEIGHT = 600;
+                    const MARGIN = 10;
+
+
+                    const viewport =
+                        window.visualViewport;
+
+
+                    const screenHeight =
+                        viewport?.height ??
+                        document.documentElement.clientHeight;
+
+
+                    for (const item of players) {
+
+
+                        /*
+                         * section内の
+                         * 実際に使える幅
+                         */
+
+                        const wrapperWidth =
+                            item.wrapper.clientWidth;
+
+
+                        const maxWidth =
+                            Math.max(
+                                0,
+                                wrapperWidth -
+                                MARGIN * 2
+                            );
+
+
+                        const maxHeight =
+                            Math.max(
+                                0,
+                                screenHeight -
+                                MARGIN * 2
+                            );
+
+
+                        /*
+                         * 800×600を基準に
+                         * 4:3を維持
+                         */
+
+                        let width =
+                            Math.min(
+                                GAME_WIDTH,
+                                maxWidth,
+                                maxHeight *
+                                GAME_WIDTH /
+                                GAME_HEIGHT
+                            );
+
+
+                        width =
+                            Math.max(
+                                1,
+                                Math.floor(width)
+                            );
+
+
+                        const height =
+                            Math.max(
+                                1,
+                                Math.floor(
+                                    width *
+                                    GAME_HEIGHT /
+                                    GAME_WIDTH
+                                )
+                            );
+
+
+                        /*
+                         * Ruffle本体
+                         */
+
+                        item.player.style.setProperty(
+                            "width",
+                            `${width}px`,
+                            "important"
+                        );
+
+
+                        item.player.style.setProperty(
+                            "height",
+                            `${height}px`,
+                            "important"
+                        );
+
+
+                        /*
+                         * container
+                         */
+
+                        item.container.style.width =
+                            `${width}px`;
+
+
+                        item.container.style.height =
+                            `${height}px`;
+
+
+                        /*
+                         * Ruffleにもサイズを指定
+                         */
+
+                        item.player.setAttribute(
+                            "width",
+                            String(width)
+                        );
+
+
+                        item.player.setAttribute(
+                            "height",
+                            String(height)
+                        );
+
+                    }
+
+                }
+
+
+
+                /*
+                 * 初回サイズ設定
+                 */
+
+                resizeGames();
+
+
+
+                /*
+                 * ウィンドウサイズ変更
+                 */
+
+                window.addEventListener(
+                    "resize",
+                    resizeGames
+                );
+
+
+
+                /*
+                 * スマホの縦・横回転
+                 */
+
+                window.addEventListener(
+                    "orientationchange",
+                    () => {
+
+                        setTimeout(
+                            resizeGames,
+                            300
+                        );
+
+                    }
+                );
+
+
+
+                /*
+                 * SafariのvisualViewport変更
+                 */
+
+                window.visualViewport?.addEventListener(
+                    "resize",
+                    resizeGames
+                );
+
+
+
+                /*
+                 * SWF読み込み
+                 */
+
+                for (const item of players) {
+
+                    const swfUrl =
+                        new URL(
+                            item.swf,
+                            document.baseURI
+                        ).href;
+
+
+                    try {
+
+                        await item.player
+                            .ruffle()
+                            .load(swfUrl);
+
+                    } catch (error) {
+
+                        console.error(
+                            "Ruffle SWF load failed:",
+                            error
+                        );
+
+                    }
+
+                }
+
+            }
+
+        );
+
+    </script>
+
 
 
 </body>

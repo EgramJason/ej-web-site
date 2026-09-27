@@ -534,47 +534,6 @@
                     resizeGames
                 );
 
-                /*
-                * ページがバックグラウンドになったら
-                * Ruffleを完全に一時停止
-                */
-
-                document.addEventListener(
-                    "visibilitychange",
-                    () => {
-
-                        for (const item of players) {
-
-                            try {
-
-                                const ruffle =
-                                    item.player.ruffle();
-
-                                if (document.visibilityState === "hidden") {
-
-                                    // ホーム画面・YouTube・別タブなど
-                                    ruffle.suspend();
-
-                                } else {
-
-                                    // Safariへ戻った
-                                    ruffle.resume();
-
-                                }
-
-                            } catch (error) {
-
-                                console.error(
-                                    "Ruffle suspend/resume failed:",
-                                    error
-                                );
-
-                            }
-
-                        }
-
-                    }
-                );
 
 
                 /*

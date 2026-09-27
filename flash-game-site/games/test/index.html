@@ -534,59 +534,40 @@
                     resizeGames
                 );
 
-                                /*
+                /*
                 * ページがバックグラウンドになったら
-                * Ruffleを一時停止
+                * Ruffleを完全に一時停止
                 */
 
                 document.addEventListener(
                     "visibilitychange",
                     () => {
 
-                        if (document.visibilityState === "hidden") {
+                        for (const item of players) {
 
-                            // ホーム画面・別アプリ・別タブなど
-                            // ページが見えなくなった場合
+                            try {
 
-                            for (const item of players) {
+                                const ruffle =
+                                    item.player.ruffle();
 
-                                try {
+                                if (document.visibilityState === "hidden") {
 
-                                    item.player
-                                        .ruffle()
-                                        .pause();
+                                    // ホーム画面・YouTube・別タブなど
+                                    ruffle.suspend();
 
-                                } catch (error) {
+                                } else {
 
-                                    console.error(
-                                        "Ruffle pause failed:",
-                                        error
-                                    );
+                                    // Safariへ戻った
+                                    ruffle.resume();
 
                                 }
 
-                            }
+                            } catch (error) {
 
-                        } else {
-
-                            // Safariに戻ってページが表示された場合
-
-                            for (const item of players) {
-
-                                try {
-
-                                    item.player
-                                        .ruffle()
-                                        .resume();
-
-                                } catch (error) {
-
-                                    console.error(
-                                        "Ruffle resume failed:",
-                                        error
-                                    );
-
-                                }
+                                console.error(
+                                    "Ruffle suspend/resume failed:",
+                                    error
+                                );
 
                             }
 
@@ -594,7 +575,6 @@
 
                     }
                 );
-
 
 
                 /*

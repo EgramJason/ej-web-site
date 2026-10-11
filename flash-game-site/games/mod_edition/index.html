@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -32,18 +33,31 @@
     ></script>
 
     <style>
-    .ruffle-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-</style>
+        .ruffle-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 一時停止・再開ボタン */
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .game-controls button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
 
 </head>
 
 <body>
 
-   <header>
+    <header>
 
         <div class="site-header">
 
@@ -78,6 +92,19 @@
                     class="ruffle-container"
                     aria-label="Flashゲーム"
                 ></div>
+
+            </div>
+
+            <!-- 一時停止・再開ボタン -->
+            <div class="game-controls">
+
+                <button id="pause-game" type="button">
+                    一時停止
+                </button>
+
+                <button id="resume-game" type="button">
+                    再開
+                </button>
 
             </div>
 
@@ -174,6 +201,37 @@
                 }
 
 
+                /*
+                 * ゲーム一時停止・再開ボタン
+                 */
+
+                document.getElementById(
+                    "pause-game"
+                )?.addEventListener(
+                    "click",
+                    () => {
+
+                        for (const item of players) {
+                            item.player.pause(true);
+                        }
+
+                    }
+                );
+
+
+                document.getElementById(
+                    "resume-game"
+                )?.addEventListener(
+                    "click",
+                    () => {
+
+                        for (const item of players) {
+                            item.player.pause(false);
+                        }
+
+                    }
+                );
+
 
                 /*
                  * 正常に表示される1ゲーム版と
@@ -229,8 +287,8 @@
 
 
                         /*
-                         * 800×600を基準に
-                         * 4:3を維持
+                         * 900×600を基準に
+                         * 3:2を維持
                          */
 
                         let width =
@@ -311,13 +369,11 @@
                 }
 
 
-
                 /*
                  * 初回サイズ設定
                  */
 
                 resizeGames();
-
 
 
                 /*
@@ -328,7 +384,6 @@
                     "resize",
                     resizeGames
                 );
-
 
 
                 /*
@@ -356,7 +411,6 @@
                     "resize",
                     resizeGames
                 );
-
 
 
                 /*
@@ -394,8 +448,6 @@
         );
 
     </script>
-
-
 
 </body>
 

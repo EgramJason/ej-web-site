@@ -13,24 +13,17 @@
 
     <title>CR河原美代子DW研究所</title>
 
-
     <!-- 共通CSS -->
     <link
         rel="stylesheet"
         href="../../assets/css/common.css"
     >
 
-
     <!-- 公式Ruffle -->
-    <script
-        src="../../ruffle/ruffle.js"
-    ></script>
-
+    <script src="../../ruffle/ruffle.js"></script>
 
     <!-- Ruffleプレイヤー制御 -->
-    <script
-        src="../../assets/js/ruffle-player.js"
-    ></script>
+    <script src="../../assets/js/ruffle-player.js"></script>
 
     <style>
         .ruffle-wrapper {
@@ -39,11 +32,10 @@
             align-items: center;
         }
 
-        /* 一時停止・再開ボタン */
+        /* 一時停止ボタン */
         .game-controls {
             display: flex;
             justify-content: center;
-            gap: 10px;
             margin: 15px 0;
         }
 
@@ -61,11 +53,17 @@
 
         <div class="site-header">
 
-            <a href="https://egramjason.github.io/ej-web-site/flash-game-site/" class="site-title">
+            <a
+                href="https://egramjason.github.io/ej-web-site/flash-game-site/"
+                class="site-title"
+            >
                 Flashゲームトップ
             </a>
 
-            <a href="https://egramjason.github.io/ej-web-site/flash-game-site/games/" class="site-title">
+            <a
+                href="https://egramjason.github.io/ej-web-site/flash-game-site/games/"
+                class="site-title"
+            >
                 CR河原美代子DW研究所
             </a>
 
@@ -95,15 +93,14 @@
 
             </div>
 
-            <!-- 一時停止・再開ボタン -->
+            <!-- 一時停止ボタン -->
             <div class="game-controls">
 
-                <button id="pause-game" type="button">
+                <button
+                    id="pause-game"
+                    type="button"
+                >
                     一時停止
-                </button>
-
-                <button id="resume-game" type="button">
-                    再開
                 </button>
 
             </div>
@@ -129,7 +126,6 @@
                 const ruffle =
                     window.RufflePlayer?.newest?.();
 
-
                 if (!ruffle) {
 
                     console.error(
@@ -138,7 +134,6 @@
 
                     return;
                 }
-
 
                 const games = [
 
@@ -152,9 +147,7 @@
 
                 ];
 
-
                 const players = [];
-
 
                 /*
                  * Ruffleプレイヤー作成
@@ -167,20 +160,16 @@
                             game.container
                         );
 
-
                     if (!container) {
                         continue;
                     }
 
-
                     const player =
                         ruffle.createPlayer();
-
 
                     container.replaceChildren(
                         player
                     );
-
 
                     players.push({
 
@@ -200,9 +189,28 @@
 
                 }
 
+                /*
+                 * 一時停止状態
+                 */
+
+                let gamePaused = false;
 
                 /*
-                 * ゲーム一時停止・再開ボタン
+                 * ゲームを停止する
+                 */
+
+                function pauseGames() {
+
+                    for (const item of players) {
+
+                        item.player.pause(true);
+
+                    }
+
+                }
+
+                /*
+                 * 一時停止ボタン
                  */
 
                 document.getElementById(
@@ -211,35 +219,57 @@
                     "click",
                     () => {
 
-                        for (const item of players) {
-                            item.player.pause(true);
-                        }
+                        gamePaused = true;
+
+                        pauseGames();
 
                     }
                 );
-
-
-                document.getElementById(
-                    "resume-game"
-                )?.addEventListener(
-                    "click",
-                    () => {
-
-                        for (const item of players) {
-                            item.player.pause(false);
-                        }
-
-                    }
-                );
-
 
                 /*
-                 * 正常に表示される1ゲーム版と
-                 * 同じサイズ計算
-                 *
-                 * 重要：
-                 * document全体の幅ではなく、
-                 * 各wrapperの実際の幅を使う。
+                 * 一時停止中にウィンドウへ戻った場合、
+                 * 停止処理を再適用する
+                 */
+
+                function keepGamesPaused() {
+
+                    if (!gamePaused) {
+                        return;
+                    }
+
+                    pauseGames();
+
+                }
+
+                /*
+                 * ウィンドウがアクティブになったとき
+                 */
+
+                window.addEventListener(
+                    "focus",
+                    keepGamesPaused
+                );
+
+                /*
+                 * ページの表示状態が変化したとき
+                 */
+
+                document.addEventListener(
+                    "visibilitychange",
+                    keepGamesPaused
+                );
+
+                /*
+                 * ページが再表示されたとき
+                 */
+
+                window.addEventListener(
+                    "pageshow",
+                    keepGamesPaused
+                );
+
+                /*
+                 * ゲームのサイズ調整
                  */
 
                 function resizeGames() {
@@ -248,27 +278,17 @@
                     const GAME_HEIGHT = 600;
                     const MARGIN = 10;
 
-
                     const viewport =
                         window.visualViewport;
-
 
                     const screenHeight =
                         viewport?.height ??
                         document.documentElement.clientHeight;
 
-
                     for (const item of players) {
-
-
-                        /*
-                         * section内の
-                         * 実際に使える幅
-                         */
 
                         const wrapperWidth =
                             item.wrapper.clientWidth;
-
 
                         const maxWidth =
                             Math.max(
@@ -277,19 +297,12 @@
                                 MARGIN * 2
                             );
 
-
                         const maxHeight =
                             Math.max(
                                 0,
                                 screenHeight -
                                 MARGIN * 2
                             );
-
-
-                        /*
-                         * 900×600を基準に
-                         * 3:2を維持
-                         */
 
                         let width =
                             Math.min(
@@ -300,13 +313,11 @@
                                 GAME_HEIGHT
                             );
 
-
                         width =
                             Math.max(
                                 1,
                                 Math.floor(width)
                             );
-
 
                         const height =
                             Math.max(
@@ -318,7 +329,6 @@
                                 )
                             );
 
-
                         /*
                          * Ruffle本体
                          */
@@ -329,35 +339,30 @@
                             "important"
                         );
 
-
                         item.player.style.setProperty(
                             "height",
                             `${height}px`,
                             "important"
                         );
 
-
                         /*
-                         * container
+                         * コンテナ
                          */
 
                         item.container.style.width =
                             `${width}px`;
 
-
                         item.container.style.height =
                             `${height}px`;
 
-
                         /*
-                         * Ruffleにもサイズを指定
+                         * Ruffleのサイズ属性
                          */
 
                         item.player.setAttribute(
                             "width",
                             String(width)
                         );
-
 
                         item.player.setAttribute(
                             "height",
@@ -368,13 +373,11 @@
 
                 }
 
-
                 /*
                  * 初回サイズ設定
                  */
 
                 resizeGames();
-
 
                 /*
                  * ウィンドウサイズ変更
@@ -385,9 +388,8 @@
                     resizeGames
                 );
 
-
                 /*
-                 * スマホの縦・横回転
+                 * スマートフォンの縦・横回転
                  */
 
                 window.addEventListener(
@@ -402,16 +404,14 @@
                     }
                 );
 
-
                 /*
-                 * SafariのvisualViewport変更
+                 * Safariの表示領域変更
                  */
 
                 window.visualViewport?.addEventListener(
                     "resize",
                     resizeGames
                 );
-
 
                 /*
                  * SWF読み込み
@@ -424,7 +424,6 @@
                             item.swf,
                             document.baseURI
                         ).href;
-
 
                     try {
 
